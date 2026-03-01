@@ -1,4 +1,4 @@
-#!/usr/nssa221_scripts python3
+#/home/student/nssa221_scripts python3
 
 """
 Name: Noah Cosamano
@@ -179,48 +179,52 @@ def create_display():
     model, processors, cores = get_cpu_information()
     ram_total, ram_free = get_memory_information()
 
-    # Prints current date/time in red
-    print(f"\033[31m{time.ctime()}\033[0m\n")
+    # Build output as one big string
+    output = ""
+    output += f"{time.ctime()}\n\n"
 
-    # Device section
-    print("\033[32mDevice Information\033[0m")
-    print_row("Hostname:", hostname)
-    print_row("Domain:", domain)
+    output += "Device Information\n"
+    output += f"Hostname: {hostname}\n"
+    output += f"Domain: {domain}\n\n"
 
-    # Network section
-    print("\n\033[32mNetworkInformation\033[0m")
-    print_row("IP Address:", ip)
-    print_row("Gateway:", gateway)
-    print_row("Network Mask:", netmask)
+    output += "Network Information\n"
+    output += f"IP Address: {ip}\n"
+    output += f"Gateway: {gateway}\n"
+    output += f"Network Mask: {netmask}\n"
+
     for index, dns in enumerate(dns_addresses):
-        print_row(f"DNS{index+1}", dns)
+        output += f"DNS{index+1}: {dns}\n"
 
-    # OS section
-    print("\n\033[32mOperating System Information\033[0m")
-    print_row("Operating System:", os)
-    print_row("OS Version:", os_version)
-    print_row("Kernel Version:", kernel)
+    output += "\nOperating System Information\n"
+    output += f"Operating System: {os}\n"
+    output += f"OS Version: {os_version}\n"
+    output += f"Kernel Version: {kernel}\n\n"
 
-    # Storage section
-    print("\n\033[32mStorage Information\033[0m")
-    print_row("System Drive Total:", total)
-    print_row("System Drive Used:", used)
-    print_row("System Drive Free:", free)
+    output += "Storage Information\n"
+    output += f"System Drive Total: {total}\n"
+    output += f"System Drive Used: {used}\n"
+    output += f"System Drive Free: {free}\n\n"
 
-    # CPU section
-    print("\n\033[32mProcessor Information\033[0m")
-    print_row("CPU Model:", model)
-    print_row("Number of Processors:", processors)
-    print_row("Number of Cores:", cores)
+    output += "Processor Information\n"
+    output += f"CPU Model: {model}\n"
+    output += f"Number of Processors: {processors}\n"
+    output += f"Number of Cores: {cores}\n\n"
 
-    # RAM section
-    print("\n\033[32mMemory Information\033[0m")
-    print_row("Total RAM:", ram_total)
-    print_row("Available RAM", ram_free)
+    output += "Memory Information\n"
+    output += f"Total RAM: {ram_total}\n"
+    output += f"Available RAM: {ram_free}\n"
+
+    # Print to screen
+    print(output)
+
+    # Save to log file in home directory (append mode)
+    with open("/home/student/system_report.log", "a") as logfile:
+        logfile.write(output)
+        logfile.write("\n" + "-"*50 + "\n\n")
 
 def main():
     # Clears the terminal screen before printing info
-    subprocess.run(["clear"])
+    subprocess.run([ "clear"])
     create_display()
     
 
